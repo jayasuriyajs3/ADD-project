@@ -10,6 +10,12 @@ const paymentSection = document.getElementById('payment-section');
 const totalAmount = document.getElementById('total-amount');
 
 let cart = [];
+const loginButton = document.getElementById("loginButton");
+
+// Add event listener for the 'click' event
+loginButton.addEventListener("click", function() {
+ loginButton.classList.add("clicked");
+});
 
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
