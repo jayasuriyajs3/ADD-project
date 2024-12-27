@@ -1,74 +1,58 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #0f0f0f;
+    color: #f0f0f0;
     box-sizing: border-box;
-    background-image: url('"C:\Users\MANOJ V\Downloads\CODE BLASTERS.png"');
-    background-position: top left, bottom right;
-    background-repeat: no-repeat, no-repeat;
-    background-size: 50% 50%, auto;
 }
 
-header, footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
+#splash-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #1c1c1c;
+    color: #ffcc00;
+    font-size: 3rem;
     font-weight: bold;
-    text-shadow: 3px 3px 4px rgba(200, 26, 26, 0.4);
+    text-shadow: 2px 2px 5px #000;
 }
 
+/* Additional page styles */
 .container {
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .form-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.form-container input[type="text"], .form-container input[type="password"], .form-container button {
+    background-color: #1e1e1e;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    max-width: 400px;
 }
 
 .food-item {
-    border: 1px solid #ccc;
+    margin: 15px;
+    text-align: center;
+    background-color: #1e1e1e;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+}
+
+footer {
+    background-color: #1c1c1c;
+    text-align: center;
     padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
-.food-item h3 {
-    margin: 0;
-}
-
-.food-item button {
-    background-color: #021bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.cart {
-    margin-top: 20px;
-}
-
-.cart-item {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
-#loginButton {
-    background-color: #4CAF50;  /* Green color */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-  }
   
