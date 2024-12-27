@@ -1,67 +1,94 @@
-const loginForm = document.getElementById('login-form');
-const signupLink = document.getElementById('signup-link');
-const authSection = document.getElementById('auth-section');
-const homeSection = document.getElementById('home-section');
-const cartItems = document.getElementById('cart-items');
-const confirmOrderButton = document.getElementById('confirm-order');
-const confirmationSection = document.getElementById('confirmation-section');
-const orderSummary = document.getElementById('order-summary');
-const paymentSection = document.getElementById('payment-section');
-const totalAmount = document.getElementById('total-amount');
-
 let cart = [];
-const loginButton = document.getElementById("loginButton");
 
-// Add event listener for the 'click' event
-loginButton.addEventListener("click", function() {
- loginButton.classList.add("clicked");
-});
+const splashScreen = document.getElementById('splash-screen');
+const loginPage = document.getElementById('login-page');
+const menuPage = document.getElementById('menu-page');
+const previewPage = document.getElementById('preview-page');
+const paymentPage = document.getElementById('payment-page');
+const paymentProcedure = document.getElementById('payment-procedure');
+const feedbackSection = document.getElementById('feedback-section');
 
-loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    authSection.style.display = 'none';
-    homeSection.style.display = 'block';
-});
+setTimeout(() => {
+    splashScreen.style.display = 'none';
+    loginPage.style.display = 'flex';
+}, 2000);
 
-signupLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    alert('Sign-up feature coming soon!');
+document.getElementById('login-button').addEventListener('click', () => {
+    loginPage.style.display = 'none';
+    menuPage.style.display = 'block';
 });
 
 document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', () => {
-        const foodItem = button.parentElement;
-        const itemName = foodItem.querySelector('h3').innerText;
-        const itemRating = foodItem.querySelector('p:nth-child(2)').innerText;
-        const itemCuisine = foodItem.querySelector('p:nth-child(3)').innerText;
-
-        cart.push({ name: itemName, rating: itemRating, cuisine: itemCuisine });
-
-        const cartItem = document.createElement('div');
-        cartItem.className = 'cart-item';
-        cartItem.innerText = `${itemName} - ${itemRating} - ${itemCuisine}`;
-        cartItems.appendChild(cartItem);
-
-        confirmOrderButton.style.display = 'block';
+        const item = button.getAttribute('data-item');
+        const price = parseInt(button.getAttribute('data-price'));
+        const now = new Date();
+        cart.push({
+            item,
+            price,
+            date: now.toLocaleDateString(),
+            day: now.toLocaleString('default', { weekday: 'long' }),
+            time: now.toLocaleTimeString(),
+        });
+        alert(`${item} added to cart!`);
     });
 });
 
-confirmOrderButton.addEventListener('click', () => {
-    homeSection.style.display = 'none';
-    confirmationSection.style.display = 'block';
-
-    orderSummary.innerHTML = cart.map(item => `<p>${item.name} - ${item.rating} - ${item.cuisine}</p>`).join('');
+document.getElementById('proceed-to-cart').addEventListener('click', () => {
+    if (cart.length === 0) {
+        alert('Your cart is empty! Please add items before proceeding.');
+        return;
+    }
+    menuPage.style.display = 'none';
+    previewPage.style.display = 'block';
+    showCartPreview();
 });
 
+function showCartPreview() {
+    const previewTableBody = document.querySelector('#preview-table tbody');
+    const previewTotal = document.getElementById('preview-total');
+    previewTableBody.innerHTML = '';
+    let total = 0;
+    cart.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.item}</td>
+            <td>₹${item.price}</td>
+            <td>${item.date}</td>
+            <td>${item.day}</td>
+            <td>${item.time}</td>
+        `;
+        previewTableBody.appendChild(row);
+        total += item.price;
+    });
+    previewTotal.textContent = total;
+}
+
+// Payment and Invoice Handling
 document.getElementById('proceed-to-payment').addEventListener('click', () => {
-    confirmationSection.style.display = 'none';
-    paymentSection.style.display = 'block';
-
-    const total = cart.length * 100; // Assuming each dish costs 100
-    totalAmount.innerText = `₹${total}`;
+    previewPage.style.display = 'none';
+    paymentProcedure.style.display = 'block';
 });
 
-document.getElementById('pay-now').addEventListener('click', () => {
-    alert('Payment successful! Thank you for your order.');
-    window.location.reload();
+document.getElementById('submit-payment').addEventListener('click', () => {
+    paymentProcedure.style.display = 'none';
+    paymentPage.style.display = 'block';
+    generateInvoice();
 });
+
+function generateInvoice() {
+    const invoiceTableBody = document.querySelector('#invoice-table tbody');
+    const totalAmount = document.getElementById('total-amount');
+    invoiceTableBody.innerHTML = '';
+    let total = 0;
+    cart.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.item}</td>
+            <td>₹${item.price}</td>
+            <td>${item.date}</td>
+            <td>${item.day}</td>
+            <td>${item.time}</td>
+        `;
+        invoiceTable
+
