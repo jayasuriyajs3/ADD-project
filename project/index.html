@@ -4,76 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canteen Billing Center</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>CANTEEN Billing Center</h1>
-    </header>
 
-    <main class="container">
-        <section id="auth-section">
-            <div class="form-container">
-                <h2>Login</h2>
-                <form id="login-form">
-                    <input type="text" id="username" placeholder="Username" required>
-                    <input type="password" id="password" placeholder="Password" required>
-                    <button type="submit" id="loginButton">Login</button>
-                </form>
-                <p>Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
-            </div>
-        </section>
+<div id="splash-screen">Welcome to Canteen Billing Center</div>
 
-        <section id="home-section" style="display: none;">
-            <h2>Menu</h2>
-            <div id="food-items">
-                <div class="food-item">
-                    <h3>Pizza</h3>
-                    <p>Rating: 4.5</p>
-                    <p>Cuisine: Italian</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-                <div class="food-item">
-                    <h3>Burger</h3>
-                    <p>Rating: 4.2</p>
-                    <p>Cuisine: American</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-                <div class="food-item">
-                    <h3>Sushi</h3>
-                    <p>Rating: 4.8</p>
-                    <p>Cuisine: Japanese</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-            </div>
+<div id="login-page" class="container">
+    <div class="form-container">
+        <h2>Login</h2>
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button id="login-button">Login</button>
+    </div>
+</div>
 
-            <div class="cart">
-                <h2>Your Cart</h2>
-                <div id="cart-items"></div>
-                <button id="confirm-order" style="display: none;">Confirm Order</button>
-            </div>
-        </section>
+<div id="menu-page">
+    <h2>Menu</h2>
+    <div id="menu-items">
+        <div class="food-item">
+            <img src="pizza.jpg" alt="Pizza">
+            <h3>Pizza</h3>
+            <p>₹200</p>
+            <button class="add-to-cart" data-item="Pizza" data-price="200">Add to Cart</button>
+        </div>
+        <div class="food-item">
+            <img src="burger.jpg" alt="Burger">
+            <h3>Burger</h3>
+            <p>₹150</p>
+            <button class="add-to-cart" data-item="Burger" data-price="150">Add to Cart</button>
+        </div>
+        <div class="food-item">
+            <img src="sushi.jpg" alt="Sushi">
+            <h3>Sushi</h3>
+            <p>₹300</p>
+            <button class="add-to-cart" data-item="Sushi" data-price="300">Add to Cart</button>
+        </div>
+    </div>
+    <button id="proceed-to-cart">Proceed to Cart</button>
+</div>
 
-        <section id="confirmation-section" style="display: none;">
-            <h2>Confirm Your Order</h2>
-            <div id="order-summary"></div>
-            <button id="proceed-to-payment">Proceed to Payment</button>
-        </section>
+<div id="preview-page">
+    <h2>Cart Preview</h2>
+    <table id="preview-table">
+        <thead>
+            <tr>
+                <th>Dish</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <h3>Total: ₹<span id="preview-total">0</span></h3>
+    <button id="proceed-to-payment">Proceed to Payment</button>
+</div>
 
-        <section id="payment-section" style="display: none;">
-            <h2>Payment</h2>
-            <p>Total Amount: <span id="total-amount"></span></p>
-            <button id="pay-now">Pay Now</button>
-        </section>
-    </main>
+<div id="payment-procedure">
+    <h2>Payment Procedure</h2>
+    <div class="form-container">
+        <input type="text" placeholder="Card Number" id="card-number">
+        <input type="text" placeholder="Cardholder Name" id="cardholder-name">
+        <input type="text" placeholder="CVV" id="cvv">
+        <button id="submit-payment">Submit Payment</button>
+    </div>
+</div>
 
-    <footer>
-        <p>&copy;  Canteen Billing Center</p>
-    </footer>
+<div id="payment-page">
+    <h2>Invoice</h2>
+    <table id="invoice-table">
+        <thead>
+            <tr>
+                <th>Dish</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <h3>Total Amount: ₹<span id="total-amount">0</span></h3>
+    <button id="generate-invoice">Generate Invoice</button>
+</div>
 
-    <script src="javascript.js"></script>
+<div id="feedback-section">
+    <h2>Feedback</h2>
+    <textarea id="feedback" placeholder="Enter your feedback"></textarea>
+    <button id="submit-feedback">Submit Feedback</button>
+</div>
+
+<footer>
+    &copy; 2024 Canteen Billing Center
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
+
 
 
 
