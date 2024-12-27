@@ -19,7 +19,14 @@ body {
     text-shadow: 2px 2px 5px #000;
 }
 
-/* Additional page styles */
+#login-page, #menu-page, #preview-page, #payment-page, #payment-procedure, #feedback-section {
+    display: none;
+    padding: 20px;
+    max-width: 90%;
+    margin: auto;
+    height: calc(100vh - 40px);
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -36,23 +43,28 @@ body {
     max-width: 400px;
 }
 
-.food-item {
-    margin: 15px;
-    text-align: center;
-    background-color: #1e1e1e;
-    border-radius: 15px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+.form-container input, .form-container button {
+    width: 95%;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: none;
+    background-color: #333;
+    color: #f0f0f0;
+    font-size: 1rem;
 }
 
-footer {
-    background-color: #1c1c1c;
-    text-align: center;
-    padding: 10px;
-    color: #fff;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+.form-container button {
+    background-color: #ffcc00;
+    cursor: pointer;
+    font-weight: bold;
 }
+
+.form-container button:hover {
+    background-color: #e6b800;
+}
+
+/* Add more styles for food items, tables, and other components */
+
 
   
