@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canteen Billing Center</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0f0f0f;
+            color: #f0f0f0;
+            box-sizing: border-box;
+        }
+
+        #splash-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #1c1c1c;
+            color: #ffcc00;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px #000;
+        }
+
+        #login-page, #menu-page, #preview-page, #payment-page, #payment-procedure, #feedback-section {
+            display: none;
+            padding: 20px;
+            max-width: 90%;
+            margin: auto;
+            height: calc(100vh - 40px);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .form-container {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-container input, .form-container button {
+            width: 95%;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: none;
+            background-color: #333;
+            color: #f0f0f0;
+            font-size: 1rem;
+        }
+
+        .form-container button {
+            background-color: #ffcc00;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .form-container button:hover {
+            background-color: #e6b800;
+        }
+
+        .food-item {
+            display: inline-block;
+            margin: 15px;
+            width: 250px;
+            text-align: center;
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .food-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .food-item button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .food-item button:hover {
+            background-color: #218838;
+        }
+
+        #preview-table, #invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #1e1e1e;
+        }
+
+        #preview-table th, #preview-table td, #invoice-table th, #invoice-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #333;
+            color: #f0f0f0;
+            font-size: 1.1rem;
+        }
+
+        #preview-table th, #invoice-table th {
+            background-color: #333;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #1c1c1c;
+            text-align: center;
+            padding: 10px;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<div id="splash-screen">WELCOME TO AMENITY'S ONLINE BILLING </div>
+
+<div id="login-page" class="container">
+
+    <div class="form-container">
+
+        <h2 style="text-align: center; color: #ffcc00;">LOGIN</h2>
+        <input type="text" id="us" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button id="login-button">LOGIN</button>
+    </div>
+</div>
+
+<div id="menu-page">
+    <h2 style="text-align: center;">Menu</h2>
+    <div id="menu-items" style="display: flex; flex-wrap: wrap; justify-content: center;">
+        <div class="food-item">
+            <img src="C:\Users\SURIYATEJA\Desktop\puff.jpg" alt="Puff">
+            <h3>EGG PUFF</h3>
+            <p>₹200</p>
+            <button class="add-to-cart" data-item="PUFF" data-price="40">Add to Cart</button>
+        </div>
+        <div class="food-item">
+            <img src="C:\Users\SURIYATEJA\Desktop\burger.jpg" alt="Burger">
+            <h3>BURGER</h3>
+            <p>₹150</p>
+            <button class="add-to-cart" data-item="BURGER" data-price="150">Add to Cart</button>
+        </div>
+        <div class="food-item">
+            <img src="C:\Users\SURIYATEJA\Desktop\vegpuffs.jpg" alt="Vegpuff">
+            <h3>VEG PUFF</h3>
+            <p>₹300</p>
+            <button class="add-to-cart" data-item="VEGPUFF" data-price="50">Add to Cart</button>
+        </div>
+ <div class="food-item">
+            <img src="C:\Users\SURIYATEJA\Desktop\french.jpg" alt="FRIES">
+            <h3>FRENCH FRIES</h3>
+            <p>₹300</p>
+            <button class="add-to-cart" data-item="FRIES" data-price="300">Add to Cart</button>
+        </div>
+ <div class="food-item">
+            <img src="C:\Users\SURIYATEJA\Desktop\shawarma.jpg" alt="Shawarma">
+            <h3>SHAWARMA</h3>
+            <p>₹300</p>
+            <button class="add-to-cart" data-item="SHAWARMA" data-price="300">Add to Cart</button>
+        </div>
+ <div class="food-item">
+            <img src="C:\Users\SURIYATEJA\Desktop\pizza.jpg" alt="pizza">
+            <h3>PIZZA</h3>
+            <p>₹300</p>
+            <button class="add-to-cart" data-item="PIZZA" data-price="300">Add to Cart</button>
+        </div>
+ <div class="food-item">
+            <img src="C:\Users\SURIYATEJA\Desktop\sand.jpg" alt="sandwich">
+            <h3>SANDWICH</h3>
+            <p>₹300</p>
+            <button class="add-to-cart" data-item="SANDWICH" data-price="300">Add to Cart</button>
+        </div>
+ <div class="food-item">
+            <img src="C:\Users\SURIYATEJA\Desktop\donut.jpg" alt="donut">
+            <h3>DONUT</h3>
+            <p>₹300</p>
+            <button class="add-to-cart" data-item="DONUT" data-price="300">Add to Cart</button>
+        </div>
+
+    </div>
+   <center> <button id="proceed-to-cart"style="float:center; padding: 10px 20px; margin-top: 20px;">Proceed to Cart</button></center>
+</div>
+
+<div id="preview-page">
+    <h2 style="text-align: center;">Cart Preview</h2>
+    <table id="preview-table">
+        <thead>
+            <tr>
+                <th>Dish</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <h3 style="text-align: right;">Total: ₹<span id="preview-total">0</span></h3>
+    <center><button id="proceed-to-payment" style="float:center; padding: 10px 20px;">Proceed to Payment</button></center>
+</div>
+<center>
+<div id="payment-procedure">
+    <h2 style="text-align: center;">PAYMENT PROCEDURE</h2>
+    <div class="form-container">
+        <input type="text" placeholder="Card Number" id="card-number">
+        <input type="text" placeholder="Cardholder Name" id="cardholder-name">
+        <input type="text" placeholder="CVV" id="cvv">
+        <button id="submit-payment">SUBMIT PAYMENT</button>
+    </div>
+</div>
+</center>
+
+<div id="payment-page">
+    <h2 style="text-align: center;">INVOICE</h2>
+    <table id="invoice-table">
+        <thead>
+            <tr>
+                <th>Dish</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <h3 style="text-align: right;">Total Amount: ₹<span id="total-amount">0</span></h3>
+    <center><button id="generate-invoice" style="float: center; padding: 10px 20px;">Generate Invoice</button></center>
+</div>
+
+<div id="feedback-section">
+    <h2 style="text-align: center;">Feedback</h2>
+    <textarea id="feedback" placeholder="Enter your feedback" style="width: 100%; height: 150px; margin-bottom: 15px;"></textarea>
+    <center><button id="submit-feedback" style="float:center; padding: 10px 20px;">Submit Feedback</button></center>
+</div>
+
+<script>
+    let cart = [];
+    const splashScreen = document.getElementById('splash-screen');
+    const loginPage = document.getElementById('login-page');
+    const menuPage = document.getElementById('menu-page');
+    const previewPage = document.getElementById('preview-page');
+    const paymentPage = document.getElementById('payment-page');
+    const paymentProcedure = document.getElementById('payment-procedure');
+    const feedbackSection = document.getElementById('feedback-section');
+
+    setTimeout(() => {
+        splashScreen.style.display = 'none';
+        loginPage.style.display = 'flex';
+    }, 2000);
+
+    document.getElementById('login-button').addEventListener('click', () => {
+        loginPage.style.display = 'none';
+        menuPage.style.display = 'block';
+    });
+
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', () => {
+            const item = button.getAttribute('data-item');
+            const price = parseInt(button.getAttribute('data-price'));
+            const now = new Date();
+            cart.push({
+                item,
+                price,
+                date: now.toLocaleDateString(),
+                day: now.toLocaleString('default', { weekday: 'long' }),
+                time: now.toLocaleTimeString(),
+            });
+            alert(`${item} added to cart!`);
+        });
+    });
+
+    document.getElementById('proceed-to-cart').addEventListener('click', () => {
+        if (cart.length === 0) {
+            alert('Your cart is empty! Please add items before proceeding.');
+            return;
+        }
+        menuPage.style.display = 'none';
+        previewPage.style.display = 'block';
+        showCartPreview();
+    });
+
+    function showCartPreview() {
+        const previewTableBody = document.querySelector('#preview-table tbody');
+        const previewTotal = document.getElementById('preview-total');
+        previewTableBody.innerHTML = '';
+        let total = 0;
+        cart.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.item}</td>
+                <td>₹${item.price}</td>
+                <td>${item.date}</td>
+                <td>${item.day}</td>
+                <td>${item.time}</td>
+            `;
+            previewTableBody.appendChild(row);
+            total += item.price;
+        });
+        previewTotal.textContent = total;
+    }
+
+    document.getElementById('proceed-to-payment').addEventListener('click', () => {
+        previewPage.style.display = 'none';
+        paymentProcedure.style.display = 'block';
+    });
+
+    document.getElementById('submit-payment').addEventListener('click', () => {
+        // You can validate payment information here, and if valid, proceed.
+        paymentProcedure.style.display = 'none';
+        paymentPage.style.display = 'block';
+        generateInvoice();
+    });
+
+    function generateInvoice() {
+        const invoiceTableBody = document.querySelector('#invoice-table tbody');
+        const totalAmount = document.getElementById('total-amount');
+        invoiceTableBody.innerHTML = '';
+        let total = 0;
+        cart.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.item}</td>
+                <td>₹${item.price}</td>
+                <td>${item.date}</td>
+                <td>${item.day}</td>
+                <td>${item.time}</td>
+            `;
+            invoiceTableBody.appendChild(row);
+            total += item.price;
+        });
+        totalAmount.textContent = total;
+    }
+
+    document.getElementById('generate-invoice').addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.text('Invoice', 10, 10);
+        doc.autoTable({
+            head: [['Dish', 'Price', 'Date', 'Day', 'Time']],
+            body: cart.map(item => [item.item, `₹${item.price}`, item.date, item.day, item.time]),
+        });
+        doc.save('invoice.pdf');
+        paymentPage.style.display = 'none';
+        feedbackSection.style.display = 'block';
+    });
+
+    document.getElementById('submit-feedback').addEventListener('click', () => {
+        alert('Thank you for your feedback!');
+        feedbackSection.style.display = 'none';
+    });
+</script>
+
+</body>
+</html>
