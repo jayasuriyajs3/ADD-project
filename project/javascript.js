@@ -1,94 +1,107 @@
-let cart = [];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canteen Billing Center</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
 
-const splashScreen = document.getElementById('splash-screen');
-const loginPage = document.getElementById('login-page');
-const menuPage = document.getElementById('menu-page');
-const previewPage = document.getElementById('preview-page');
-const paymentPage = document.getElementById('payment-page');
-const paymentProcedure = document.getElementById('payment-procedure');
-const feedbackSection = document.getElementById('feedback-section');
+<div id="splash-screen">Welcome to Canteen Billing Center</div>
 
-setTimeout(() => {
-    splashScreen.style.display = 'none';
-    loginPage.style.display = 'flex';
-}, 2000);
+<div id="login-page" class="container">
+    <div class="form-container">
+        <h2>Login</h2>
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button id="login-button">Login</button>
+    </div>
+</div>
 
-document.getElementById('login-button').addEventListener('click', () => {
-    loginPage.style.display = 'none';
-    menuPage.style.display = 'block';
-});
+<div id="menu-page">
+    <h2>Menu</h2>
+    <div id="menu-items">
+        <div class="food-item">
+            <img src="pizza.jpg" alt="Pizza">
+            <h3>Pizza</h3>
+            <p>₹200</p>
+            <button class="add-to-cart" data-item="Pizza" data-price="200">Add to Cart</button>
+        </div>
+        <div class="food-item">
+            <img src="burger.jpg" alt="Burger">
+            <h3>Burger</h3>
+            <p>₹150</p>
+            <button class="add-to-cart" data-item="Burger" data-price="150">Add to Cart</button>
+        </div>
+        <div class="food-item">
+            <img src="sushi.jpg" alt="Sushi">
+            <h3>Sushi</h3>
+            <p>₹300</p>
+            <button class="add-to-cart" data-item="Sushi" data-price="300">Add to Cart</button>
+        </div>
+    </div>
+    <button id="proceed-to-cart">Proceed to Cart</button>
+</div>
 
-document.querySelectorAll('.add-to-cart').forEach(button => {
-    button.addEventListener('click', () => {
-        const item = button.getAttribute('data-item');
-        const price = parseInt(button.getAttribute('data-price'));
-        const now = new Date();
-        cart.push({
-            item,
-            price,
-            date: now.toLocaleDateString(),
-            day: now.toLocaleString('default', { weekday: 'long' }),
-            time: now.toLocaleTimeString(),
-        });
-        alert(`${item} added to cart!`);
-    });
-});
+<div id="preview-page">
+    <h2>Cart Preview</h2>
+    <table id="preview-table">
+        <thead>
+            <tr>
+                <th>Dish</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <h3>Total: ₹<span id="preview-total">0</span></h3>
+    <button id="proceed-to-payment">Proceed to Payment</button>
+</div>
 
-document.getElementById('proceed-to-cart').addEventListener('click', () => {
-    if (cart.length === 0) {
-        alert('Your cart is empty! Please add items before proceeding.');
-        return;
-    }
-    menuPage.style.display = 'none';
-    previewPage.style.display = 'block';
-    showCartPreview();
-});
+<div id="payment-procedure">
+    <h2>Payment Procedure</h2>
+    <div class="form-container">
+        <input type="text" placeholder="Card Number" id="card-number">
+        <input type="text" placeholder="Cardholder Name" id="cardholder-name">
+        <input type="text" placeholder="CVV" id="cvv">
+        <button id="submit-payment">Submit Payment</button>
+    </div>
+</div>
 
-function showCartPreview() {
-    const previewTableBody = document.querySelector('#preview-table tbody');
-    const previewTotal = document.getElementById('preview-total');
-    previewTableBody.innerHTML = '';
-    let total = 0;
-    cart.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.item}</td>
-            <td>₹${item.price}</td>
-            <td>${item.date}</td>
-            <td>${item.day}</td>
-            <td>${item.time}</td>
-        `;
-        previewTableBody.appendChild(row);
-        total += item.price;
-    });
-    previewTotal.textContent = total;
-}
+<div id="payment-page">
+    <h2>Invoice</h2>
+    <table id="invoice-table">
+        <thead>
+            <tr>
+                <th>Dish</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <h3>Total Amount: ₹<span id="total-amount">0</span></h3>
+    <button id="generate-invoice">Generate Invoice</button>
+</div>
 
-// Payment and Invoice Handling
-document.getElementById('proceed-to-payment').addEventListener('click', () => {
-    previewPage.style.display = 'none';
-    paymentProcedure.style.display = 'block';
-});
+<div id="feedback-section">
+    <h2>Feedback</h2>
+    <textarea id="feedback" placeholder="Enter your feedback"></textarea>
+    <button id="submit-feedback">Submit Feedback</button>
+</div>
 
-document.getElementById('submit-payment').addEventListener('click', () => {
-    paymentProcedure.style.display = 'none';
-    paymentPage.style.display = 'block';
-    generateInvoice();
-});
+<footer>
+    &copy; 2024 Canteen Billing Center
+</footer>
 
-function generateInvoice() {
-    const invoiceTableBody = document.querySelector('#invoice-table tbody');
-    const totalAmount = document.getElementById('total-amount');
-    invoiceTableBody.innerHTML = '';
-    let total = 0;
-    cart.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.item}</td>
-            <td>₹${item.price}</td>
-            <td>${item.date}</td>
-            <td>${item.day}</td>
-            <td>${item.time}</td>
-        `;
-        invoiceTable
-
+<script src="javascript.js"></script>
+</body>
+</html>
